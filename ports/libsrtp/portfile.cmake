@@ -39,4 +39,14 @@ if(EXISTS "${CURRENT_PACKAGES_DIR}/debug/lib/srtp2.dll")
     file(RENAME "${CURRENT_PACKAGES_DIR}/debug/lib/srtp2.dll" "${CURRENT_PACKAGES_DIR}/debug/bin/srtp2.dll")
 endif()
 
+if (NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "release")
+    set(LIBVPX_PREFIX "${CURRENT_INSTALLED_DIR}")
+    configure_file("${CMAKE_CURRENT_LIST_DIR}/libsrtp2.pc.in" "${CURRENT_PACKAGES_DIR}/lib/pkgconfig/libsrtp2.pc" @ONLY)
+endif()
+
+if (NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "debug")
+    set(LIBVPX_PREFIX "${CURRENT_INSTALLED_DIR}/debug")
+    configure_file("${CMAKE_CURRENT_LIST_DIR}/libsrtp2.pc.in" "${CURRENT_PACKAGES_DIR}/debug/lib/pkgconfig/libsrtp2.pc" @ONLY)
+endif()
+
 file(INSTALL "${SOURCE_PATH}/LICENSE" DESTINATION "${CURRENT_PACKAGES_DIR}/share/libsrtp" RENAME copyright)
